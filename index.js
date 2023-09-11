@@ -1,19 +1,20 @@
 const express = require("express");
 const app = express();
-const authAPIRout = require("./routes/users");
 // import utils
 const connect = require("./utils/connect");
-const graphQlStartStandaloneServer = require("./utils/graphQlStandaloneServer");
+const appEndpoints = require("./utils/appEndpoints");
+
+const schema = require("./graphQl/schema");
+const { ApolloServer } = require("@apollo/server");
 // connect to mongo and serve GraphQL
-connect().then(graphQlStartStandaloneServer);
-// bodyParser
-app.use(express.json());
-// auth rout
-app.use("/auth", authAPIRout);
-// listen
-const port = 3300;
-app.listen(port, () => {
-	console.log(`App listening on port ${port}`);
+connect(app).then(async () => {
+	const server = new ApolloServer({ schema });
+	await server.start();
+	appEndpoints(app, server);
+	// listening
+	const port = 3000;
+	app.listen(port, () => {
+		console.log(`App at => http://localhost:${port}`);
+		console.log(`graphql at => http://localhost:${port}/graphql`);
+	});
 });
-// Exports
-// module.exports = app;

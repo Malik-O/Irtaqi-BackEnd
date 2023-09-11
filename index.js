@@ -11,7 +11,9 @@ app.use(express.json());
 // auth rout
 app.use("/auth", authAPIRout);
 // listen
-const port = 3300;
-app.listen(port, () => {
-	console.log(`App listening on port ${port}`);
-});
+// const port = 3300;
+// app.listen(port, () => {
+// 	console.log(`App listening on port ${port}`);
+// });
+// Exports
+module.exports = app;

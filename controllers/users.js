@@ -8,7 +8,7 @@ const login = async (req, res) => {
 	console.log(req.body, SECRET_KEY);
 	let auth = (
 		await usersSchema.find({
-			email: req.body.username,
+			email: req.body.email,
 			password: req.body.password,
 		})
 	)[0];

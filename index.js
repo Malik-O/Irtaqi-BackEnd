@@ -1,11 +1,10 @@
 const express = require("express");
 const app = express();
+const { ApolloServer } = require("@apollo/server");
 // import utils
 const connect = require("./utils/connect");
 const appEndpoints = require("./utils/appEndpoints");
-
 const schema = require("./graphQl/schema");
-const { ApolloServer } = require("@apollo/server");
 // connect to mongo and serve GraphQL
 connect(app).then(async () => {
 	const server = new ApolloServer({ schema });
@@ -14,7 +13,7 @@ connect(app).then(async () => {
 	// listening
 	const port = 3000;
 	app.listen(port, () => {
-		console.log(`App at => http://localhost:${port}`);
-		console.log(`graphql at => http://localhost:${port}/graphql`);
+		console.log(`🚀 App at => http://localhost:${port}`);
+		console.log(`🚀 graphql at => http://localhost:${port}/graphql`);
 	});
 });

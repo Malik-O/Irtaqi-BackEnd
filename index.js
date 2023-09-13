@@ -7,7 +7,7 @@ const appEndpoints = require("./utils/appEndpoints");
 const schema = require("./graphQl/schema");
 // connect to mongo and serve GraphQL
 connect(app).then(async () => {
-	const server = new ApolloServer({ schema });
+	const server = new ApolloServer({ schema, introspection: true });
 	await server.start();
 	appEndpoints(app, server);
 	// listening

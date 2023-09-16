@@ -1,32 +1,28 @@
 const {
-    GraphQLString,
-    GraphQLInt,
-    GraphQLID,
-    GraphQLList,
-    GraphQLBoolean,
+	GraphQLString,
+	GraphQLInt,
+	GraphQLID,
+	GraphQLList,
+	GraphQLBoolean,
 } = require("graphql");
-const // User
-    User_Schema = require("../../../models/Users/Users"),
-    User_type = require("../../types/Users/User"),
-    // rule convert function
-    rulesConverter = require("../../types/shared/rulesConverter");
+const User_Schema = require("../../../models/Users/Users"),
+	User_type = require("../../types/Users/User");
 // Function
 module.exports = {
-    type: User_type,
-    args: {
-        email: { type: GraphQLString },
-        group_ids: { type: new GraphQLList(GraphQLID) },
-        organization_id: { type: GraphQLID },
-        password: { type: GraphQLString },
-        first_name: { type: GraphQLString },
-        parent_name: { type: GraphQLString },
-        gender: { type: GraphQLString },
-        phone: { type: GraphQLString },
-        rules: { type: new GraphQLList(GraphQLString) },
-    },
-    async resolve(_, args) {
-        // extract id from rule title
-        args.rule_ids = await rulesConverter({ rules: args.rules });
-        return await User_Schema.create(args);
-    },
+	type: User_type,
+	args: {
+		id_number: { type: GraphQLInt },
+		// name
+		first_name: { type: GraphQLString },
+		parent_name: { type: GraphQLString },
+		last_name: { type: GraphQLString },
+		// others
+		email: { type: GraphQLString },
+		gender: { type: GraphQLBoolean },
+		phone: { type: GraphQLString },
+		birth_day: { type: GraphQLString },
+	},
+	async resolve(_, args) {
+		return await User_Schema.create(args);
+	},
 };

@@ -6,9 +6,12 @@ const {
 	GraphQLSchema,
 } = require("graphql");
 //* types
-const User_type = require("./types/Users/User");
+// ...
 //* DB schema
-const Users_schema = require("../models/Users/Users");
+// ...
+//* Queries
+const userQuery = require("./queries/user");
+const groupsQuery = require("./queries/groups");
 //* mutations
 const // Users
 	createUser = require("./mutations/Users/createUser"),
@@ -18,17 +21,8 @@ const // Users
 const query = new GraphQLObjectType({
 	name: "RootQueryType",
 	fields: {
-		// get user info
-		user: {
-			type: User_type,
-			args: {
-				id: { type: GraphQLID },
-			},
-			async resolve(_, { id }) {
-				// search and return
-				return await Users_schema.findById(id);
-			},
-		},
+		user: userQuery,
+		groups: groupsQuery,
 	},
 });
 //? Mutations

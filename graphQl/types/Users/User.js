@@ -6,9 +6,12 @@ const {
 	GraphQLList,
 	GraphQLBoolean,
 } = require("graphql");
+//
+const Role_type = require("./roles");
+const rolesResolver = require("./resolvers/rolesResolver");
 // User Type
-const ShortUser_type = new GraphQLObjectType({
-	name: `shortUser`,
+module.exports = new GraphQLObjectType({
+	name: `User`,
 	fields: () => ({
 		id: { type: GraphQLID },
 		id_number: { type: GraphQLInt },
@@ -21,7 +24,10 @@ const ShortUser_type = new GraphQLObjectType({
 		gender: { type: GraphQLBoolean },
 		phone: { type: GraphQLString },
 		birth_day: { type: GraphQLString },
+		// role
+		roles: {
+			type: new GraphQLList(Role_type),
+			resolve: rolesResolver,
+		},
 	}),
 });
-// export
-module.exports = ShortUser_type;

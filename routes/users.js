@@ -1,16 +1,10 @@
-const express = require("express"),
-	router = express.Router(),
-	{
-		login,
-		signup,
-		verification,
-		user,
-		logout,
-	} = require("../controllers/users");
+const express = require("express");
+const router = express.Router();
+const login = require("../controllers/login");
+const logout = require("../controllers/logout");
+const { verification, user } = require("../controllers/user");
 // login
 router.post("/login", login);
-// signup
-router.post("/signup", signup);
 // user
 router.get("/user", verification, user);
 // logout

@@ -1,7 +1,5 @@
 //* resolvers
-const rolesResolver = require.main.require(
-	"./graphQl/types/Users/resolvers/rolesResolver",
-);
+const rolesResolver = require("../../../types/Users/resolvers/rolesResolver");
 const { removeRepetitionGroups } = require("./utils");
 const roleSwitches = require("./roleSwitches");
 //role switches

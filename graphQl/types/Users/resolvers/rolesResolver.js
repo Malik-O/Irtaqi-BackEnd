@@ -1,5 +1,5 @@
-const Users_Roles_schema = require.main.require("./models/Users/Users_Roles");
-const Roles_schema = require.main.require("./models/Users/Roles");
+const Users_Roles_schema = require("../../../../models/Users/Users_Roles");
+const Roles_schema = require("../../../../models/Users/Roles");
 
 async function findRole({ role_id, resource_id }) {
 	const role = await Roles_schema.findById(role_id);

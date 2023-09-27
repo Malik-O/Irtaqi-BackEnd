@@ -1,6 +1,6 @@
 //* DB schema
-const Centers_schema = require.main.require("./models/Organizations/Centers");
-const Groups_schema = require.main.require("./models/Organizations/Groups");
+const Centers_schema = require("../../../../models/Organizations/Centers");
+const Groups_schema = require("../../../../models/Organizations/Groups");
 // add the role title to a list of groups
 function addTheRoleAndMarge(allGroups, newGroups, roleTitle) {
 	newGroups = newGroups.map((group) => {

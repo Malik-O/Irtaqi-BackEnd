@@ -1,5 +1,5 @@
 //* DB schema
-const Groups_schema = require.main.require("./models/Organizations/Groups");
+const Groups_schema = require("../../../../models/Organizations/Groups");
 const {
 	groupsFromOrganization,
 	addTheRoleAndMarge,

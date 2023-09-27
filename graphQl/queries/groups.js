@@ -1,6 +1,6 @@
 const { GraphQLID, GraphQLList } = require("graphql");
 //* types
-const Groups_type = require("../types/Organizations/Groups");
+const Groups_type = require("../types/Organizations/Group");
 //* resolvers
 const groupsResolver = require("./resolvers/groupsResolver");
 // exports

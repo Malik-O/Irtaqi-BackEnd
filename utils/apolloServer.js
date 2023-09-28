@@ -13,7 +13,7 @@ module.exports = (app) => {
 	// Set up WebSocket server.
 	const wsServer = new WebSocketServer({
 		server: httpServer,
-		path: "/subscriptions",
+		path: "/graphql",
 	});
 	const serverCleanup = useServer({ schema }, wsServer);
 	const server = new ApolloServer({

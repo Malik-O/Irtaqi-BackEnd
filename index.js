@@ -16,6 +16,6 @@ connect(app).then(async () => {
 		const local = `://localhost:${PORT}`;
 		console.log(`🚀 Auth endpoint ready at http${local}/auth/`);
 		console.log(`🚀 Query endpoint ready at http${local}/graphql`);
-		console.log(`🚀 Subscription endpoint ready at ws${PORT}/graphql`);
+		console.log(`🚀 Subscription endpoint ready at ws${local}/graphql`);
 	});
 });

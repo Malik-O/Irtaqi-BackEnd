@@ -1,6 +1,7 @@
-const cors = require("cors");
-const express = require("express");
 const { expressMiddleware } = require("@apollo/server/express4");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const express = require("express");
 const authAPIRout = require("../routes/users");
 
 module.exports = (app, server) => {
@@ -10,5 +11,5 @@ module.exports = (app, server) => {
 	// auth endpoint
 	app.use("/auth", authAPIRout);
 	// graphql endpoint
-	app.use("/graphql", expressMiddleware(server));
+	app.use("/graphql", cors(), bodyParser.json(), expressMiddleware(server));
 };

@@ -5,8 +5,12 @@ const {
 	GraphQLList,
 	GraphQLBoolean,
 } = require("graphql");
+const { PubSub } = require("graphql-subscriptions");
 const User_Schema = require("../../../models/Users/Users"),
 	User_type = require("../../types/Users/User");
+
+const pubsub = new PubSub();
+
 // Function
 module.exports = {
 	type: User_type,
@@ -23,6 +27,8 @@ module.exports = {
 		birth_day: { type: GraphQLString },
 	},
 	async resolve(_, args) {
+		pubsub.publish("NEW_USER", { user: { first_name: "666" } });
+
 		return await User_Schema.create(args);
 	},
 };

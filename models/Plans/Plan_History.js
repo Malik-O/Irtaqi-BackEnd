@@ -3,15 +3,15 @@ const { plansConnection } = require("../../utils/connections");
 
 const Plan_History = new Schema(
 	{
-		custom_plan_id: ObjectId,
-		student_id: ObjectId,
+		plan_instance_id: ObjectId,
+		// student_id: ObjectId,
 		updated_by: ObjectId,
 		amount_done: Number,
 		grade: Number,
 
-		rabt: Boolean,
+		// rabt: Boolean,
 		note: String,
-		// date: Date,
+		date: Date,
 		// rabt_amount_done: Number,
 		// rabt_grade: Number,
 	},

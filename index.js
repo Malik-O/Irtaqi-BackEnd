@@ -3,7 +3,18 @@ const app = require("express")();
 const connect = require("./utils/connect");
 const appEndpoints = require("./utils/appEndpoints");
 const apolloServer = require("./utils/apolloServer");
-const PORT = 4000;
+//
+const { generatePlanDays } = require("./static/generatePlanDays");
+const props = {
+	title: "p 1",
+	working_days: [0, 1, 2, 3, 4],
+	from: 1,
+	amount: 1,
+	starting_at: new Date(new Date().setDate(20)),
+	weeks: 1,
+	order_reversed: false,
+};
+const PORT = 800;
 // connect to mongoDB then start server
 connect(app).then(async () => {
 	const { server, httpServer } = apolloServer(app);

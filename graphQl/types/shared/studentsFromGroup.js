@@ -1,13 +1,13 @@
 // Schemas
-const Users_Schema = require("../../../../models/Users/Users");
-const Users_Roles_Schema = require("../../../../models/Users/Users_Roles");
-const Roles_Schema = require("../../../../models/Users/Roles");
+const Users_Schema = require("../../../models/Users/Users");
+const Users_Roles_Schema = require("../../../models/Users/Users_Roles");
+const Roles_Schema = require("../../../models/Users/Roles");
 // map through all the relationships and extract users data
 async function mapThroughUsers({ user_id }) {
 	return await Users_Schema.findById(user_id);
 }
 
-module.exports = async ({ id: course_id, group_id }) => {
+module.exports = async ({ group_id }) => {
 	// get student role id
 	const studentRole = await Roles_Schema.findOne({
 		title: "student",

@@ -4,7 +4,9 @@ const { plansConnection } = require("../../utils/connections");
 const Plans = new Schema(
 	{
 		rabt_for_plan_id: ObjectId,
-		subgroup_id: ObjectId,
+		entity_id: ObjectId,
+		entity_type: String, // [student, subgroup]
+
 		title: String,
 		color: String,
 		order_reversed: Boolean,

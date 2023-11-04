@@ -9,7 +9,7 @@ const {
 //
 const User_type = require("../Users/User");
 //
-const floatingStudentsResolver = require("./resolvers/floatingStudentsResolver");
+const studentsFromGroup = require("../shared/studentsFromGroup");
 // const // User
 //     Users_schema = require("../../../models/Users/Users"),
 // Subgroups
@@ -25,7 +25,7 @@ module.exports = new GraphQLObjectType({
 		description: { type: GraphQLString },
 		floatingStudents: {
 			type: new GraphQLList(User_type),
-			resolve: floatingStudentsResolver,
+			resolve: studentsFromGroup,
 		},
 		subgroups: {
 			type: new GraphQLList(subgroup_type),

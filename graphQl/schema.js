@@ -16,11 +16,21 @@ const User_type = require("./types/Users/User");
 //* Queries
 const userQuery = require("./queries/user");
 const groupsQuery = require("./queries/groups");
+const groupAttendance = require("./queries/groupAttendance");
+const plansQuery = require("./queries/plans/plans");
+const PlanInstanceHistoryAtDateQuery = require("./queries/plans/PlanInstanceHistoryAtDate");
 //* mutations
 const // Users
 	createUser = require("./mutations/Users/createUser"),
 	updateUser = require("./mutations/Users/updateUser"),
 	removeUser = require("./mutations/Users/removeUser");
+const // attendance
+	updateAttendance = require("./mutations/attendance/updateAttendance");
+const // Plans
+	addPlan = require("./mutations/Plans/addPlan"),
+	editInstance = require("./mutations/Plans/editInstance"),
+	spreadPlan = require("./mutations/Plans/spreadPlan"),
+	updateHistory = require("./mutations/Plans/updateHistory");
 //
 const NEW_USER = "NEW_USER";
 const pubsub = new PubSub();
@@ -30,6 +40,9 @@ const query = new GraphQLObjectType({
 	fields: {
 		user: userQuery,
 		groups: groupsQuery,
+		plans: plansQuery,
+		PlanInstanceHistoryAtDate: PlanInstanceHistoryAtDateQuery,
+		groupAttendance: groupAttendance,
 	},
 });
 //? Mutations
@@ -61,6 +74,13 @@ const mutation = new GraphQLObjectType({
 		},
 		updateUser,
 		removeUser,
+		// attendance
+		updateAttendance,
+		// plans
+		addPlan,
+		editInstance,
+		spreadPlan,
+		updateHistory,
 	},
 });
 

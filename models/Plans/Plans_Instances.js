@@ -1,7 +1,7 @@
 const { ObjectId, Schema } = require("mongoose");
 const { plansConnection } = require("../../utils/connections");
 
-const Custom_Plans = new Schema(
+const Plans_Instances = new Schema(
 	{
 		plan_id: ObjectId,
 		from: String,
@@ -10,7 +10,7 @@ const Custom_Plans = new Schema(
 		date: Date,
 		note: String,
 	},
-	{ timestamps: true, collection: "Custom_Plans" },
+	{ timestamps: true, collection: "Plans_Instances" },
 );
 
-module.exports = plansConnection.model("Custom_Plans", Custom_Plans);
+module.exports = plansConnection.model("Plans_Instances", Plans_Instances);

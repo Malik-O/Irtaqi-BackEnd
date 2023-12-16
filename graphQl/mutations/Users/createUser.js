@@ -5,30 +5,56 @@ const {
 	GraphQLList,
 	GraphQLBoolean,
 } = require("graphql");
-const { PubSub } = require("graphql-subscriptions");
+// const { PubSub } = require("graphql-subscriptions");
+const userBaseFields = require("../../types/shared/userBaseFields");
+// user
 const User_Schema = require("../../../models/Users/Users"),
 	User_type = require("../../types/Users/User");
+// roles
+const Roles_Schema = require("../../../models/Users/Roles");
+const Users_Roles_Schema = require("../../../models/Users/Users_Roles");
 
-const pubsub = new PubSub();
+// const pubsub = new PubSub();
 
 // Function
 module.exports = {
 	type: User_type,
 	args: {
-		id_number: { type: GraphQLInt },
-		// name
-		first_name: { type: GraphQLString },
-		parent_name: { type: GraphQLString },
-		last_name: { type: GraphQLString },
-		// others
-		email: { type: GraphQLString },
-		gender: { type: GraphQLBoolean },
-		phone: { type: GraphQLString },
-		birth_day: { type: GraphQLString },
+		...userBaseFields,
+		role_title: { type: GraphQLString },
+		resource_ids: { type: new GraphQLList(GraphQLString) },
 	},
 	async resolve(_, args) {
-		pubsub.publish("NEW_USER", { user: { first_name: "666" } });
-
-		return await User_Schema.create(args);
+		// pubsub.publish("NEW_USER", { user: { first_name: "666" } });
+		//* add new user
+		const newUser = await User_Schema.create(args);
+		//* connect role to user
+		const role = await Roles_Schema.findOne({ title: args.role_title });
+		//* add role to each resource
+		if (args.resource_ids.length)
+			await Promise.all(
+				args.resource_ids?.map(
+					async (resource_id) =>
+						await Users_Roles_Schema.create({
+							user_id: newUser.id,
+							role_id: role.id,
+							resource_id,
+						}),
+				),
+			);
+		return newUser;
 	},
+};
+const COLORS = {
+	background: "#FFFFFF",
+	surface: "#FFFFFF",
+	primary: "#6200EE",
+	"primary-darken-1": "#3700B3",
+	secondary: "#03DAC6",
+	"secondary-darken-1": "#018786",
+	error: "#B00020",
+	error: "#CF6679",
+	info: "#2196F3",
+	success: "#4CAF50",
+	warning: "#FB8C00",
 };

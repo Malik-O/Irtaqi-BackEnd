@@ -188,6 +188,58 @@ describe("with rabt", () => {
 			},
 		]);
 	});
+	test("forward with rabt_amount < amount", () => {
+		const props = {
+			from: 3,
+			amount: 10,
+			rabt_amount: 1,
+			weeks: 1,
+			entity_id: "6514396c1ffb2f1f855acff8",
+			order_reversed: false,
+			title: "new",
+			working_days: [1, 2, 3],
+			entity_type: "student",
+			starting_at: 1696762871948,
+		};
+		expect(generatePlanDays(props)).toMatchObject([
+			{
+				...props,
+				days: [
+					{
+						date: new Date("2023-10-09T11:01:11.948Z"),
+						from: "2:6",
+						to: "2:83",
+					},
+					{
+						date: new Date("2023-10-10T11:01:11.948Z"),
+						from: "2:84",
+						to: "2:145",
+					},
+					{
+						date: new Date("2023-10-11T11:01:11.948Z"),
+						from: "2:146",
+						to: "2:210",
+					},
+				],
+			},
+			{
+				...props,
+				days: [
+					{
+						date: new Date("2023-10-10T11:01:11.948Z"),
+						from: "2:77",
+						to: "2:83",
+					},
+					{
+						date: new Date("2023-10-11T11:01:11.948Z"),
+						from: "2:142",
+						to: "2:145",
+					},
+				],
+				title: "rabt of new",
+			},
+		]);
+	});
 	test("forward with rabt at the end (testing edge collapse)", () => {
 		const props = {
 			from: 603,
@@ -368,46 +420,205 @@ describe("with rabt", () => {
 	});
 });
 describe("fraction", () => {
-	test("0.5 each day", () => {
-		const props = {
-			from: 3,
-			amount: 0.5,
-			weeks: 1,
-			entity_id: "6514396c1ffb2f1f855acff8",
-			order_reversed: false,
-			title: "00000000",
-			working_days: [1, 2, 3],
-			entity_type: "student",
-			starting_at: 1696762871948,
-		};
-		expect(generatePlanDays(props)).toMatchObject([
-			{
-				...props,
-				days: [
-					{
-						date: new Date("2023-10-09T11:01:11.948Z"),
-						from: "2:6",
-						to: "2:11",
-					},
-					{
-						date: new Date("2023-10-10T11:01:11.948Z"),
-						from: "2:12",
-						to: "2:16",
-					},
-					{
-						date: new Date("2023-10-11T11:01:11.948Z"),
-						from: "2:17",
-						to: "2:20",
-					},
-				],
-			},
-		]);
+	describe("rabt_amount >= amount", () => {
+		test("0.5 page each day", () => {
+			const props = {
+				from: 3,
+				amount: 0.5,
+				weeks: 1,
+				entity_id: "6514396c1ffb2f1f855acff8",
+				order_reversed: false,
+				title: "00000000",
+				working_days: [1, 2, 3],
+				entity_type: "student",
+				starting_at: 1696762871948,
+			};
+			expect(generatePlanDays(props)).toMatchObject([
+				{
+					...props,
+					days: [
+						{
+							date: new Date("2023-10-09T11:01:11.948Z"),
+							from: "2:6",
+							to: "2:11",
+						},
+						{
+							date: new Date("2023-10-10T11:01:11.948Z"),
+							from: "2:12",
+							to: "2:16",
+						},
+						{
+							date: new Date("2023-10-11T11:01:11.948Z"),
+							from: "2:17",
+							to: "2:20",
+						},
+					],
+				},
+			]);
+		});
+		test("0.5 page each day with rabt 0.5 page too", () => {
+			const props = {
+				from: 3,
+				amount: 0.5,
+				rabt_amount: 0.5,
+				weeks: 1,
+				entity_id: "6514396c1ffb2f1f855acff8",
+				order_reversed: false,
+				title: "fraction shit",
+				working_days: [1, 2, 3],
+				entity_type: "student",
+				starting_at: 1696762871948,
+			};
+			expect(generatePlanDays(props)).toMatchObject([
+				{
+					...props,
+					days: [
+						{
+							date: new Date("2023-10-09T11:01:11.948Z"),
+							from: "2:6",
+							to: "2:11",
+						},
+						{
+							date: new Date("2023-10-10T11:01:11.948Z"),
+							from: "2:12",
+							to: "2:16",
+						},
+						{
+							date: new Date("2023-10-11T11:01:11.948Z"),
+							from: "2:17",
+							to: "2:20",
+						},
+					],
+				},
+				{
+					...props,
+					title: "rabt of fraction shit",
+					days: [
+						{
+							date: new Date("2023-10-10T11:01:11.948Z"),
+							from: "2:6",
+							to: "2:11",
+						},
+						{
+							date: new Date("2023-10-11T11:01:11.948Z"),
+							from: "2:12",
+							to: "2:16",
+						},
+					],
+				},
+			]);
+		});
+		test("0.5 page each day with rabt 1 page", () => {
+			const props = {
+				from: 3,
+				amount: 0.5,
+				rabt_amount: 1,
+				weeks: 1,
+				entity_id: "6514396c1ffb2f1f855acff8",
+				order_reversed: false,
+				title: "fraction shit",
+				working_days: [1, 2, 3],
+				entity_type: "student",
+				starting_at: 1696762871948,
+			};
+			expect(generatePlanDays(props)).toMatchObject([
+				{
+					...props,
+					days: [
+						{
+							date: new Date("2023-10-09T11:01:11.948Z"),
+							from: "2:6",
+							to: "2:11",
+						},
+						{
+							date: new Date("2023-10-10T11:01:11.948Z"),
+							from: "2:12",
+							to: "2:16",
+						},
+						{
+							date: new Date("2023-10-11T11:01:11.948Z"),
+							from: "2:17",
+							to: "2:20",
+						},
+					],
+				},
+				{
+					...props,
+					title: "rabt of fraction shit",
+					days: [
+						{
+							date: new Date("2023-10-10T11:01:11.948Z"),
+							from: "2:6",
+							to: "2:11",
+						},
+						{
+							date: new Date("2023-10-11T11:01:11.948Z"),
+							from: "2:6",
+							to: "2:16",
+						},
+					],
+				},
+			]);
+		});
+		test("1.5 page each day with rabt 2 page", () => {
+			const props = {
+				from: 118,
+				amount: 1.5,
+				rabt_amount: 2,
+				weeks: 1,
+				entity_id: "6514396c1ffb2f1f855acff8",
+				order_reversed: false,
+				title: "fraction shit",
+				working_days: [1, 2, 3],
+				entity_type: "student",
+				starting_at: 1696762871948,
+			};
+			expect(generatePlanDays(props)).toMatchObject([
+				{
+					...props,
+					days: [
+						{
+							date: new Date("2023-10-09T11:01:11.948Z"),
+							from: "5:58",
+							to: "5:67",
+						},
+						{
+							date: new Date("2023-10-10T11:01:11.948Z"),
+							from: "5:68",
+							to: "5:76",
+						},
+						{
+							date: new Date("2023-10-11T11:01:11.948Z"),
+							from: "5:77",
+							to: "5:86",
+						},
+					],
+				},
+				{
+					...props,
+					title: "rabt of fraction shit",
+					days: [
+						{
+							date: new Date("2023-10-10T11:01:11.948Z"),
+							from: "5:58",
+							to: "5:67",
+						},
+						{
+							date: new Date("2023-10-11T11:01:11.948Z"),
+							from: "5:65",
+							to: "5:76",
+						},
+					],
+				},
+			]);
+		});
 	});
-	test("0.5 each day with rabt 1 page", () => {
+	// rabt_amount < amount
+	test("rabt_amount < amount (1.5 page each day with rabt 0.5 page", () => {
 		const props = {
 			from: 3,
-			amount: 0.5,
-			rabt_amount: 1,
+			amount: 1.5,
+			rabt_amount: 0.5,
 			weeks: 1,
 			entity_id: "6514396c1ffb2f1f855acff8",
 			order_reversed: false,
@@ -423,17 +634,17 @@ describe("fraction", () => {
 					{
 						date: new Date("2023-10-09T11:01:11.948Z"),
 						from: "2:6",
-						to: "2:11",
+						to: "2:20",
 					},
 					{
 						date: new Date("2023-10-10T11:01:11.948Z"),
-						from: "2:12",
-						to: "2:16",
+						from: "2:21",
+						to: "2:29",
 					},
 					{
 						date: new Date("2023-10-11T11:01:11.948Z"),
-						from: "2:17",
-						to: "2:20",
+						from: "2:30",
+						to: "2:42",
 					},
 				],
 			},
@@ -443,13 +654,13 @@ describe("fraction", () => {
 				days: [
 					{
 						date: new Date("2023-10-10T11:01:11.948Z"),
-						from: "2:6",
-						to: "2:11",
+						from: "2:17",
+						to: "2:20",
 					},
 					{
 						date: new Date("2023-10-11T11:01:11.948Z"),
-						from: "2:6",
-						to: "2:16",
+						from: "2:27",
+						to: "2:29",
 					},
 				],
 			},

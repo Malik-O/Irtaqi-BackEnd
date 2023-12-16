@@ -8,13 +8,16 @@ const Users = new Schema(
 		// name
 		first_name: String,
 		parent_name: String,
-		last_name: String,
+		rest_of_name: String,
+		gender: Boolean,
+
+		dateOfBirth: Date,
+		nationalID: String,
 
 		email: String,
 		password: String,
-		birth_day: Date,
-		gender: Boolean,
 		phone: String,
+		parentPhone: String,
 	},
 	{ timestamps: true, collection: "Users" },
 );

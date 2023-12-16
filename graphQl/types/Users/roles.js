@@ -14,6 +14,5 @@ module.exports = new GraphQLObjectType({
 		resource_id: { type: GraphQLID },
 		resource_type: { type: GraphQLString },
 		title: { type: GraphQLString },
-		description: { type: GraphQLString },
 	}),
 });

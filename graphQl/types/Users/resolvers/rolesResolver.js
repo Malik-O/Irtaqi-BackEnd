@@ -8,5 +8,8 @@ async function findRole({ role_id, resource_id }) {
 }
 module.exports = async ({ id: user_id }) => {
 	const user_roles = await Users_Roles_schema.find({ user_id });
-	return await Promise.all(user_roles.map(findRole));
+	console.log("user_roles:", user_roles);
+	const out = await Promise.all(user_roles.map(findRole));
+	console.log("out:", out);
+	return out;
 };

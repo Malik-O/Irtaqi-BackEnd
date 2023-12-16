@@ -1,8 +1,10 @@
 const { GraphQLString, GraphQLID, GraphQLBoolean } = require("graphql");
+//
 const Attendances_Schema = require("../../../models/Users/Attendances");
+const Attendance_Type = require("../../types/Users/Attendance");
 // Function
 module.exports = {
-	type: GraphQLBoolean,
+	type: Attendance_Type,
 	args: {
 		user_id: { type: GraphQLID },
 		updated_by: { type: GraphQLID },
@@ -18,7 +20,8 @@ module.exports = {
 				date: args.date,
 			},
 			args,
+			{ returnOriginal: false, returnDocument: "after" },
 		);
-		return !!(exists || (await Attendances_Schema.create(args)));
+		return exists || (await Attendances_Schema.create(args));
 	},
 };

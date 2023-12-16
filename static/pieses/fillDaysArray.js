@@ -1,7 +1,6 @@
 const validCheck = (pageNum) => pageNum < 605 && pageNum > 0;
 const isInstanceValid = (instance) =>
 	validCheck(instance.from) && validCheck(instance.to);
-
 // fill plan days array
 module.exports = ({
 	totalDays,
@@ -27,16 +26,12 @@ module.exports = ({
 		if (!isInstanceValid(mainDay)) break;
 		// add rabt
 		if (rabtPlan && i) {
-			const adjAmount = plan.rabt_amount % 1 ? 0.5 : 1;
-			let from = Math.max(mainDay.from - plan.rabt_amount, plan.from),
-				to = Math.min(mainDay.from - 1, from + plan.rabt_amount - 1);
-			// to =
-			//     from +
-			//     (plan.rabt_amount -
-			//         1 * !((plan.amount + mainDay.from) % 1)) *
-			//         (-1) ** plan.order_reversed;
-			var rabtDay = { date: mainDay.date, from, to };
-			console.log("rabtDay:", rabtDay);
+			const from = Math.max(mainDay.from - plan.rabt_amount, plan.from);
+			// calc rabt to (if the amount or the main day fom is a fraction then adjust with 1)
+			const adjAmount = +!(plan.amount % 1 && mainDay.from % 1);
+			const to =
+				Math.min(mainDay.from, from + plan.rabt_amount) - adjAmount;
+			const rabtDay = { date: mainDay.date, from, to };
 			// push to days
 			rabtPlan.days.push(rabtDay);
 			// }
@@ -48,6 +43,6 @@ module.exports = ({
 		// push to days
 		days.push(mainDay);
 	}
-	console.log(JSON.stringify({ days, rabtPlan }, null, 2));
+	// console.log(JSON.stringify({ days, rabtPlan }, null, 2));
 	return days;
 };

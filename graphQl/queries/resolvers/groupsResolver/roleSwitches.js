@@ -13,6 +13,7 @@ module.exports = async function (groups, role) {
 			groups = await center_admin_Resolver(groups, role);
 			break;
 		case "group_admin":
+		case "teacher":
 			groups = await group_admin_Resolver(groups, role);
 			break;
 	}

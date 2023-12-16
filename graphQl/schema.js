@@ -11,10 +11,12 @@ const { PubSub } = require("graphql-subscriptions");
 //* types
 // ...
 const User_type = require("./types/Users/User");
+const Notifications_type = require("./types/Notifications");
 //* DB schema
 // ...
 //* Queries
 const userQuery = require("./queries/user");
+const notificationsQuery = require("./queries/notifications");
 const groupsQuery = require("./queries/groups");
 const groupAttendance = require("./queries/groupAttendance");
 const plansQuery = require("./queries/plans/plans");
@@ -31,14 +33,20 @@ const // Plans
 	editInstance = require("./mutations/Plans/editInstance"),
 	spreadPlan = require("./mutations/Plans/spreadPlan"),
 	updateHistory = require("./mutations/Plans/updateHistory");
+const // Notifications
+	pushNotification = require("./mutations/notifications/pushNotification"),
+	removeNotifications = require("./mutations/notifications/removeNotifications"),
+	seenAllNotifications = require("./mutations/notifications/seenAllNotifications");
 //
 const NEW_USER = "NEW_USER";
+const NewNotification = "NewNotification";
 const pubsub = new PubSub();
 //? Query
 const query = new GraphQLObjectType({
 	name: "RootQueryType",
 	fields: {
 		user: userQuery,
+		notifications: notificationsQuery,
 		groups: groupsQuery,
 		plans: plansQuery,
 		PlanInstanceHistoryAtDate: PlanInstanceHistoryAtDateQuery,
@@ -50,28 +58,7 @@ const mutation = new GraphQLObjectType({
 	name: "mutation",
 	fields: {
 		// users
-		createUser: {
-			type: User_type,
-			args: {
-				id_number: { type: GraphQLInt },
-				// name
-				first_name: { type: GraphQLString },
-				parent_name: { type: GraphQLString },
-				last_name: { type: GraphQLString },
-				// others
-				email: { type: GraphQLString },
-				gender: { type: GraphQLBoolean },
-				phone: { type: GraphQLString },
-				birth_day: { type: GraphQLString },
-			},
-			async resolve(_, args) {
-				pubsub.publish(NEW_USER, {
-					newUserSubscription: args,
-				});
-				return args;
-				// return await User_Schema.create(args);
-			},
-		},
+		createUser,
 		updateUser,
 		removeUser,
 		// attendance
@@ -81,6 +68,10 @@ const mutation = new GraphQLObjectType({
 		editInstance,
 		spreadPlan,
 		updateHistory,
+		// Notifications
+		pushNotification,
+		removeNotifications,
+		seenAllNotifications,
 	},
 });
 
@@ -91,6 +82,12 @@ const subscription = new GraphQLObjectType({
 			type: User_type,
 			subscribe(_, args) {
 				return pubsub.asyncIterator(NEW_USER);
+			},
+		},
+		newNotificationSubscription: {
+			type: Notifications_type,
+			subscribe(_, args) {
+				return pubsub.asyncIterator(NewNotification);
 			},
 		},
 	},

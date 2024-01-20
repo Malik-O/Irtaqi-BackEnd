@@ -8,6 +8,7 @@ const Notifications = new Schema(
 		type: String,
 		icon: String,
 		error: String,
+		data: Array,
 		seen: {
 			type: Boolean,
 			default: false,

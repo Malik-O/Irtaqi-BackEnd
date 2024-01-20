@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { ObjectId, Schema } = require("mongoose");
 const { usersConnection } = require("../../utils/connections");
 
 const Roles = new Schema(

@@ -1,4 +1,9 @@
-const { GraphQLString, GraphQLID, GraphQLBoolean } = require("graphql");
+const {
+	GraphQLString,
+	GraphQLID,
+	GraphQLBoolean,
+	GraphQLList,
+} = require("graphql");
 const Notifications_Schema = require("../../../models/Notifications/Notifications"),
 	Notifications_Type = require("../../types/Notifications");
 // subscription
@@ -14,6 +19,7 @@ module.exports = {
 		seen: { type: GraphQLBoolean },
 		icon: { type: GraphQLString },
 		error: { type: GraphQLString },
+		data: { type: new GraphQLList(GraphQLString) },
 	},
 	async resolve(_, args) {
 		const newNotification = await new Notifications_Schema(args).save();

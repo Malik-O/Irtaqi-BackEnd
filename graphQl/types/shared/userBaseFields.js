@@ -7,11 +7,12 @@ const {
 // User Type
 module.exports = {
 	id: { type: GraphQLID },
+	as: { type: GraphQLString },
 	// personal info
 	first_name: { type: GraphQLString },
 	parent_name: { type: GraphQLString },
 	rest_of_name: { type: GraphQLString },
-	gender: { type: GraphQLBoolean },
+	gender: { type: GraphQLBoolean, default: true },
 	//
 	dateOfBirth: { type: GraphQLString },
 	nationalID: { type: GraphQLString },

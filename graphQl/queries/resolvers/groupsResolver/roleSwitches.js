@@ -14,8 +14,9 @@ module.exports = async function (groups, role) {
 			break;
 		case "group_admin":
 		case "teacher":
+		case "student":
 			groups = await group_admin_Resolver(groups, role);
 			break;
 	}
-	return groups;
+	return groups.filter((g) => g);
 };

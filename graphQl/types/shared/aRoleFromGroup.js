@@ -7,18 +7,16 @@ async function mapThroughUsers({ user_id }) {
 	return await Users_Schema.findById(user_id);
 }
 
-module.exports = async ({ group_id }) => {
-	// get student role id
+module.exports = async ({ group_id, roleTitle = "student" }) => {
+	// get role id
 	const studentRole = await Roles_Schema.findOne({
-		title: "student",
+		title: roleTitle,
 	});
-	// get student relationships with the course
+	// get user relationships with the course
 	const userGroupRelation = await Users_Roles_Schema.find({
 		resource_id: group_id,
 		role_id: studentRole.id,
 	});
-	// get students from relationship
-	const students = await Promise.all(userGroupRelation.map(mapThroughUsers));
-	// return
-	return students;
+	// get users from relationship
+	return await Promise.all(userGroupRelation.map(mapThroughUsers));
 };

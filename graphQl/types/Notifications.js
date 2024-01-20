@@ -3,6 +3,7 @@ const {
 	GraphQLString,
 	GraphQLID,
 	GraphQLBoolean,
+	GraphQLList,
 } = require("graphql");
 // User Type
 module.exports = new GraphQLObjectType({
@@ -11,6 +12,7 @@ module.exports = new GraphQLObjectType({
 		id: { type: GraphQLID },
 		userID: { type: GraphQLID },
 		message: { type: GraphQLString },
+		data: { type: new GraphQLList(GraphQLString) },
 		type: { type: GraphQLString },
 		seen: { type: GraphQLBoolean },
 		icon: { type: GraphQLString },

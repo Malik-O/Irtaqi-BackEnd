@@ -4,7 +4,7 @@ const Attendance_type = require("../types/Users/Attendance");
 //* DB schema
 const Attendances_schema = require("../../models/Users/Attendances");
 //* Resolvers
-const studentsFromGroup = require("../types/shared/studentsFromGroup");
+const aRoleFromGroup = require("../types/shared/aRoleFromGroup");
 // exports
 module.exports = {
 	type: new GraphQLList(Attendance_type),
@@ -13,7 +13,7 @@ module.exports = {
 		date: { type: GraphQLString },
 	},
 	async resolve(_, { group_id, date }) {
-		const students = await studentsFromGroup({ group_id });
+		const students = await aRoleFromGroup({ group_id });
 		// extract students attendance at date
 		const attendanceExtractor = async (student) =>
 			await Attendances_schema.findOne({ user_id: student.id, date });

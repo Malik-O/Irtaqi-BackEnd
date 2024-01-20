@@ -25,12 +25,19 @@ module.exports = {
 		resource_ids: { type: new GraphQLList(GraphQLString) },
 	},
 	async resolve(_, args) {
-		// pubsub.publish("NEW_USER", { user: { first_name: "666" } });
+		const doseExists = !!(await User_Schema.exists({
+			nationalID: args.nationalID,
+		}));
+		//? pubsub.publish("NEW_USER", { user: { first_name: "666" } });
+		// if the national ID is exists then throw an error
+		if (doseExists)
+			throw new Error(`User ${args.nationalID} already exists`);
 		//* add new user
 		const newUser = await User_Schema.create(args);
 		//* connect role to user
 		const role = await Roles_Schema.findOne({ title: args.role_title });
 		//* add role to each resource
+		console.log("args:", args);
 		if (args.resource_ids.length)
 			await Promise.all(
 				args.resource_ids?.map(
